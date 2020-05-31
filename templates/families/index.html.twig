@@ -19,55 +19,51 @@
         </div>
         <!-- /#sidebar-wrapper -->
 
-        <div id="page-content-wrapper">
-            <div class="container-fluid">
-                <h1>Families index</h1>
 
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Parent</th>
-                            <th>Title</th>
-                            {# <th>Niveau</th> #}
-                            {# <th>Enfant</th> #}
-                            <th>actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {% for family in families %}
-                        <tr>
-                            <td>{{ family.id }}</td>
-                            <td>
-                                {% if family.parent != null %}
-                                    {{ family.parent.title }}
-                                    {# {% for enf in items %}
-                                        whi
-                                    {% endfor %}  #}
-                                {% endif %}
-                            </td>
-                            <td>{{ family.title }}</td>
-                            {# <td>Niveau_{{ family.niveau }}</td> #}
-                            {# <td>
-                                {% for enfant in family.enfant %}
-                                    {{ enfant.title }}
-                                {% endfor %}
-                            </td> #}
-                            <td>
-                                <a href="{{ path('families_show', {'id': family.id}) }}">show</a>
-                                <a href="{{ path('families_edit', {'id': family.id}) }}">edit</a>
-                            </td>
-                        </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="3">no records found</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Parent</th>
+                 <th>Title</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% set famili = null %}
+        {% for family in families %}
+            <tr>
+                <td>{{ family.id }}</td>
+                 <td>
+                    {% if family.parent != null %}
+                        {{ family.parent.title }}
+                        {# {% for enf in items %}
+                            whi
+                        {% endfor %}  #}
+                    {% endif %}
+                 </td>
+                <td><a href="{{ path('families_niveau', {'id': family.id}) }}">{{ family.title }}</a></td>
+                <td>
+                    <a href="{{ path('families_show', {'id': family.id}) }}">show</a>
+                    <a href="{{ path('families_edit', {'id': family.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('families_new_niveau1', {'niveau': '1'}) }}">Create new</a>
 
-                <a href="{{ path('families_new') }}">Create new</a>
-            </div>
-        </div>
-    </div>
+        {% else %}
+            {% for famil in familis %}
+                {% set famili = famil %}
+            {% endfor %}
+
+            <a href="{{ path('families_new', {'parent': famili.id,'niveau': famili.niveau.id}) }}">Create new</a>
+        {% endif %}
+
 {% endblock %}

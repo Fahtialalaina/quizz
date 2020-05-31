@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Families;
 use App\Entity\Users;
 use App\Entity\Niveau;
 use Symfony\Component\Form\AbstractType;
@@ -13,7 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
-class EditUserType extends AbstractType
+class EditUserType2 extends AbstractType
 {
 
 
@@ -42,6 +43,16 @@ class EditUserType extends AbstractType
                 'expanded' => true,
                 'multiple' => true,
                 'label' => 'Rôles'
+            ])
+            ->add('niveau', EntityType::class, [
+                'class' => Niveau::class,
+                'choice_label' => 'title',
+                'multiple' => false
+            ])
+            ->add('article', EntityType::class, [
+                'class' => Families::class,
+                'choice_label' => 'title',
+                'multiple' => false
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Valider',
