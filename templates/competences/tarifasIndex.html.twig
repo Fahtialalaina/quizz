@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id 'admin_post_show' %}
+
+{% block body %}
+
+    <h1>{{ 'label.project_list'|trans }}</h1>
+
+    <table id="tarifas_index" class="table table-striped">
+        <thead>
+        <tr>
+            <th>{{ 'Id' }}</th>
+            <th><i class="fa fa-user"></i> {{ 'label.title'|trans }}</th>
+            <th><i class="fa fa-calendar"></i> {{ 'label.summary'|trans }}</th>
+            <th><i class="fa fa-calendar"></i> {{ 'label.content'|trans }}</th>
+            {# <th><i class="fa fa-cogs"></i> {{ 'label.actions'|trans }}</th> #}
+        </tr>
+        </thead>
+        <tbody>
+        {% for tarifa in tarifas %}
+            <tr>
+                <td>{{ tarifa.id }}</td>
+                <td>{{ tarifa.title }}</td>
+                <td>{{ tarifa.parent }}</td>
+                {# <td>
+                    <div class="item-actions">
+                        <a href="{{ path('project_detail', { id: tarifa.id }) }}" class="btn btn-sm btn-default">
+                            {{ 'action.show'|trans }}
+                        </a>
+                    </div>
+                </td> #}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        $(document).ready( function () {
+            $('#tarifas_index').DataTable({
+                data: tarifas
+            });
+        } );
+    </script>
+
+{% endblock %}

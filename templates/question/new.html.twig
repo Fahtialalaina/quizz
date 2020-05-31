@@ -3,12 +3,67 @@
 {% block title %}Créer nouvelle question{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-light border-right" id="sidebar-wrapper">
+        {# <div class="sidebar-heading">Start Bootstrap </div> #}
+        <div class="list-group list-group-flush">
+             <a href="#" class="list-group-item list-group-item-action bg-light"></a>
+            <a href="{{path('questions_list')}}" class="list-group-item list-group-item-action bg-light">Listes question</a>
+            <a href="{{ path('questions_new') }}" class="list-group-item list-group-item-action bg-light">Nouvelle Question</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Overview</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Events</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Profile</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Status</a>
+        </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
 
-    <h3>Créer nouvelle question</h3>
-    {{ form(questionForm) }}
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <h3>Choisir Article</h3>
+                {{ form_start(familiesForm) }}
+                    <div class="form-group">
+                        <label>Families</label>
+                        {{ form_widget(familiesForm.families) }}
+                    </div>
+                {{ form_end(familiesForm) }}
+
+                {{ form_start(questionForm) }}
+                    <h3>Choisir competence</h3>
+                    <div class="form-group">
+                        <label>competence</label>
+                        {{ form_widget(questionForm.competences) }}
+                    </div>
+
+                    <h3>Ajout question</h3>
+                    <div class="form-group" id="question-title">
+                        <label>Titre</label>
+                        {{ form_widget(questionForm.title) }}
+                    </div>
+                    <div class="form-group" id="question-texteComplementaire">
+                        <label>Texte Complémentaire</label>
+                        {{ form_widget(questionForm.texteComplementaire) }}
+                    </div>
+                    <div class="form-group" id="question-autreTexte">
+                        <label>Atre text</label>
+                        {{ form_widget(questionForm.autreTexte) }}
+                    </div>
+                    <div class="form-group" id="question-motif">
+                        <label>Titre</label>
+                        {{ form_widget(questionForm.motif) }}
+                    </div>
+                    <div class="form-group" id="question-types">
+                        <label>Titre</label>
+                        {{ form_widget(questionForm.types) }}
+                    </div>
+                    <div class="form-group" id="question-images">
+                        <label>Titre</label>
+                        {{ form_widget(questionForm.images) }}
+                    </div>
+
+                {{ form_end(questionForm) }}
+            </div>
+        </div>
 
 {% endblock %}

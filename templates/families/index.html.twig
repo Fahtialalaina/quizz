@@ -3,42 +3,71 @@
 {% block title %}Families index{% endblock %}
 
 {% block body %}
-    <h1>Families index</h1>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-light border-right" id="sidebar-wrapper">
+        {# <div class="sidebar-heading">Start Bootstrap </div> #}
+        <div class="list-group list-group-flush">
+            <a href="#" class="list-group-item list-group-item-action bg-light"></a>
+            <a href="{{ path('families_index') }}" class="list-group-item list-group-item-action bg-light">Listes Articles</a>
+            <a href="{{ path('families_new') }}" class="list-group-item list-group-item-action bg-light">Nouvelle Articles</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Overview</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Events</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Profile</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Status</a>
+        </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Parent</th>
-                 <th>Title</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for family in families %}
-            <tr>
-                <td>{{ family.id }}</td>
-                 <td>
-                    {% if family.parent != null %}
-                        {{ family.parent.title }}
-                        {# {% for enf in items %}
-                            whi
-                        {% endfor %}  #}
-                    {% endif %}
-                 </td>
-                <td>{{ family.title }}</td>
-                <td>
-                    <a href="{{ path('families_show', {'id': family.id}) }}">show</a>
-                    <a href="{{ path('families_edit', {'id': family.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <h1>Families index</h1>
 
-    <a href="{{ path('families_new') }}">Create new</a>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Parent</th>
+                            <th>Title</th>
+                            {# <th>Niveau</th> #}
+                            {# <th>Enfant</th> #}
+                            <th>actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for family in families %}
+                        <tr>
+                            <td>{{ family.id }}</td>
+                            <td>
+                                {% if family.parent != null %}
+                                    {{ family.parent.title }}
+                                    {# {% for enf in items %}
+                                        whi
+                                    {% endfor %}  #}
+                                {% endif %}
+                            </td>
+                            <td>{{ family.title }}</td>
+                            {# <td>Niveau_{{ family.niveau }}</td> #}
+                            {# <td>
+                                {% for enfant in family.enfant %}
+                                    {{ enfant.title }}
+                                {% endfor %}
+                            </td> #}
+                            <td>
+                                <a href="{{ path('families_show', {'id': family.id}) }}">show</a>
+                                <a href="{{ path('families_edit', {'id': family.id}) }}">edit</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3">no records found</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+                <a href="{{ path('families_new') }}">Create new</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}

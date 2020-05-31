@@ -45,6 +45,11 @@ class Families
      */
     private $enfant;
 
+    // /**
+    //  * @ORM\Column(type="integer")
+    //  */
+    // private $niveau;
+
     public function __construct()
     {
         $this->competences = new ArrayCollection();
@@ -153,4 +158,16 @@ class Families
 
         return $this;
     }
+
+    // public function getNiveau(): ?int
+    // {
+    //     return $this->niveau;
+    // }
+
+    // public function setNiveau(int $niveau): self
+    // {
+    //     $this->niveau = $niveau;
+
+    //     return $this;
+    // }
 }

@@ -38,7 +38,21 @@ class FamiliesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // # Recevoir niveux parent
+            // $niveau = (int)1;
+            // if ($family->getParent() != null) {
+            //     $niveau = (int)$family->getParent()->getNiveau();
+            //     $niveau = $niveau + 1;
+            // }
+            // # dd($niveau);
+            // # dd($parent_id);
+
+            #Obtenire USER connecter
             $family->setUsers($user);
+
+            // #Creation niveau d'un nouvel enfant
+            // $family->setNiveau($niveau);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($family);
             $entityManager->flush();
@@ -71,6 +85,15 @@ class FamiliesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // # Recevoir niveux parent
+            // $niveau = (int)1;
+            // if ($family->getParent() != null) {
+            //     $niveau = (int)$family->getParent()->getNiveau();
+            //     $niveau = $niveau + 1;
+            // }
+            // #Creation niveau d'un nouvel enfant
+            // $family->setNiveau($niveau);
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('families_index');

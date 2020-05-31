@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ExportImportController!{% endblock %}
+
+{% block body %}
+
+    <div class="example-wrapper container">
+       {% for item in data %}
+            {# {{ item }} #}
+            {# {{ item.columnValues["4"] }} #}
+            <pre>
+                {{ dump(item) }}
+            </pre>
+       {% endfor %}
+    </div>
+{% endblock %}

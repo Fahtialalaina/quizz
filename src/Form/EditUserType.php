@@ -31,7 +31,7 @@ class EditUserType extends AbstractType
                 'choices' => [
                     'Utilisateur' => 'ROLE_USER',
                     'Administraur' => 'ROLE_EDITOR',
-                    'Moderatuer' => 'ROLE_MODO',
+                    // 'Moderatuer' => 'ROLE_MODO',
                     'Super Administrateur' => 'ROLE_ADMIN'
                 ],
                 //case à cocher
