@@ -19,19 +19,22 @@ class FamiliesRepository extends ServiceEntityRepository
         parent::__construct($registry, Families::class);
     }
 
-    /**
-     * @return Families[] Returns an array of Families objects
-     */
-
-    public function findById($value)
+    // /**
+    //  * @return Families[] Returns an array of Families objects
+    //  */
+    /*
+    public function findByExampleField($value)
     {
         return $this->createQueryBuilder('f')
-            ->andWhere('f.id = :val')
+            ->andWhere('f.exampleField = :val')
             ->setParameter('val', $value)
             ->orderBy('f.id', 'ASC')
+            ->setMaxResults(10)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
+    */
 
     /*
     public function findOneBySomeField($value): ?Families

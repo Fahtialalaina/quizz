@@ -51,7 +51,7 @@ class Users implements UserInterface
     private $families;
 
     /**
-     * @ORM\OneToMany(targetEntity=Questions::class, mappedBy="users", orphanRemoval=false)
+     * @ORM\OneToMany(targetEntity=Questions::class, mappedBy="users", orphanRemoval=true)
      */
     private $questions;
 
@@ -64,18 +64,6 @@ class Users implements UserInterface
      * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $reset_token;
-
-    /**
-     * @ORM\OneToOne(targetEntity=Niveau::class, cascade={"persist", "remove"})
-     */
-    private $niveau;
-
-    /**
-     * @ORM\OneToOne(targetEntity=Families::class, cascade={"persist", "remove"})
-     */
-    private $article;
-
-
 
     public function __construct()
     {
@@ -224,13 +212,11 @@ class Users implements UserInterface
     }
 
 
-    function getPlainPassword()
-    {
+    function getPlainPassword() {
         return $this->plainPassword;
     }
 
-    function setPlainPassword($plainPassword)
-    {
+    function setPlainPassword($plainPassword) {
         $this->plainPassword = $plainPassword;
     }
 
@@ -254,35 +240,6 @@ class Users implements UserInterface
     public function setResetToken(?string $reset_token): self
     {
         $this->reset_token = $reset_token;
-
-        return $this;
-    }
-
-    public function getNiveau(): ?Niveau
-    {
-        return $this->niveau;
-    }
-
-    public function setNiveau(?Niveau $niveau): self
-    {
-        $this->niveau = $niveau;
-
-        return $this;
-    }
-
-    public function __toString()
-    {
-        return $this->niveau;
-    }
-
-    public function getArticle(): ?Families
-    {
-        return $this->article;
-    }
-
-    public function setArticle(?Families $article): self
-    {
-        $this->article = $article;
 
         return $this;
     }

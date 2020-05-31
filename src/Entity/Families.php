@@ -26,7 +26,7 @@ class Families
 
     /**
      * @ORM\ManyToOne(targetEntity=Users::class, inversedBy="families")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $users;
 
@@ -45,11 +45,10 @@ class Families
      */
     private $enfant;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Niveau::class, inversedBy="families")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $niveau;
+    // /**
+    //  * @ORM\Column(type="integer")
+    //  */
+    // private $niveau;
 
     public function __construct()
     {
@@ -160,16 +159,15 @@ class Families
         return $this;
     }
 
+    // public function getNiveau(): ?int
+    // {
+    //     return $this->niveau;
+    // }
 
-    public function getNiveau(): ?Niveau
-    {
-        return $this->niveau;
-    }
+    // public function setNiveau(int $niveau): self
+    // {
+    //     $this->niveau = $niveau;
 
-    public function setNiveau(?Niveau $niveau): self
-    {
-        $this->niveau = $niveau;
-
-        return $this;
-    }
+    //     return $this;
+    // }
 }
