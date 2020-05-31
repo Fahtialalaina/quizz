@@ -3,13 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\Competences;
+use App\Entity\Families;
 use App\Form\CompetencesType;
 use App\Repository\CompetencesRepository;
+use App\Repository\FamiliesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @Security("is_granted('ROLE_USER')")
@@ -37,6 +40,7 @@ class CompetencesController extends AbstractController
         $form = $this->createForm(CompetencesType::class, $competence);
         $form->handleRequest($request);
 
+        //dd($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($competence);
@@ -93,5 +97,27 @@ class CompetencesController extends AbstractController
         }
 
         return $this->redirectToRoute('competences_index');
+    }
+
+     /**
+     * @Route("/getFamilies/{id}", name="competences_families", methods={"GET"})
+     */
+    public function getFamilies($id)
+    {
+        $families = $this->getDoctrine()->getRepository(Families::class)->findBy(['id' => $id]);
+        // dd($families);
+        //return new JsonResponse(array('name' => $name));
+        //return new JsonResponse($families);
+        //return new JsonResponse(array('name' => $families));
+
+        // $response = new Response(json_encode(array('name' => $families)));
+        // $response->headers->set('Content-Type', 'application/json');
+
+        // return $response;
+
+        return $this->render('competences/tarifasIndex.html.twig', array(
+            'tarifas' => $families,
+            'json_tarifas' => json_encode($families)
+        ));
     }
 }

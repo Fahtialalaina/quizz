@@ -111,7 +111,18 @@ class FamiliesController extends AbstractController
         // $Tabcomm = $session->get('family', []);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // # Recevoir niveux parent
+            // $niveau = (int)1;
+            // if ($family->getParent() != null) {
+            //     $niveau = (int)$family->getParent()->getNiveau();
+            //     $niveau = $niveau + 1;
+            // }
+            // # dd($niveau);
+            // # dd($parent_id);
+
+            #Obtenire USER connecter
             $family->setUsers($user);
+
             $family->setNiveau($niveau);
             // for ($i = 1; $i <= 2; $i++) {
             //     $prod = $repository->findOneBy(array('id' => $Tabcomm[$i]->getFamilies()));
@@ -121,6 +132,11 @@ class FamiliesController extends AbstractController
             // $repository = $em->getRepository('AppBundle:Piece');
             // $RechPieces = $repository->FindAllDetailsPieces($data);
             // var_dump($RechPieces);
+
+
+            // #Creation niveau d'un nouvel enfant
+            // $family->setNiveau($niveau);
+
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($family);
@@ -176,6 +192,15 @@ class FamiliesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // # Recevoir niveux parent
+            // $niveau = (int)1;
+            // if ($family->getParent() != null) {
+            //     $niveau = (int)$family->getParent()->getNiveau();
+            //     $niveau = $niveau + 1;
+            // }
+            // #Creation niveau d'un nouvel enfant
+            // $family->setNiveau($niveau);
+
             $this->getDoctrine()->getManager()->flush();
             $article = $family->getParent()->getId();
             return $this->redirectToRoute('families_niveau', array('id' => $article));

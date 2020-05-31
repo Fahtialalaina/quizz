@@ -3,7 +3,22 @@
 {% block title %}Families index{% endblock %}
 
 {% block body %}
-    <h1>Families index</h1>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-light border-right" id="sidebar-wrapper">
+        {# <div class="sidebar-heading">Start Bootstrap </div> #}
+        <div class="list-group list-group-flush">
+            <a href="#" class="list-group-item list-group-item-action bg-light"></a>
+            <a href="{{ path('families_index') }}" class="list-group-item list-group-item-action bg-light">Listes Articles</a>
+            <a href="{{ path('families_new') }}" class="list-group-item list-group-item-action bg-light">Nouvelle Articles</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Overview</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Events</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Profile</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Status</a>
+        </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
 
     <table class="table">
         <thead>
@@ -50,4 +65,5 @@
 
             <a href="{{ path('families_new', {'parent': famili.id,'niveau': famili.niveau.id}) }}">Create new</a>
         {% endif %}
+
 {% endblock %}

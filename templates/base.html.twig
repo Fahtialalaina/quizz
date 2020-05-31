@@ -4,6 +4,8 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="stylesheet" href="{{ asset('build/bootstrap-4.4.1/dist/css/bootstrap.min.css') }}">
+        <!-- Custom styles for this template -->
+        <link href="{{ asset('build/css/simple-sidebar.css') }}" rel="stylesheet">
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
@@ -14,8 +16,7 @@
             {# <li><a href="{{ path('app_login') }}">Login</a></li> #}
         {% endif %}
 
-
-         <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <a class="navbar-brand" href="#">Quizz</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -104,10 +105,11 @@
                     </form>
                 </div>
             </nav>
-
-            {% block body %}{% endblock %}
+         
+            {% block body %}{% endblock %} 
         
-        
+            <script src={{ asset('build/jquery/jquery.min.js') }}></script>
+            <script src={{ asset('build/my_jquery.js') }}></script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

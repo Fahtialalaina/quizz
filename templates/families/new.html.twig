@@ -3,9 +3,32 @@
 {% block title %}New Families{% endblock %}
 
 {% block body %}
-    <h1>Create new Families</h1>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-light border-right" id="sidebar-wrapper">
+        {# <div class="sidebar-heading">Start Bootstrap </div> #}
+        <div class="list-group list-group-flush">
+            <a href="#" class="list-group-item list-group-item-action bg-light"></a>
+            <a href="{{ path('families_index') }}" class="list-group-item list-group-item-action bg-light">Listes Articles</a>
+            <a href="{{ path('families_new') }}" class="list-group-item list-group-item-action bg-light">Nouvelle Articles</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Overview</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Events</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Profile</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Status</a>
+        </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
 
-    {{ include('families/_form.html.twig') }}
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <h1>Create new Families</h1>
 
-    {# <a href="{{ path('families_niveau', {'id': family.parent.id}) }}">back to list</a> #}
+
+    {# <a href="{{ path('families_niveau', {'id': family.parent.id}) }}">back to list</a #}
+                {{ include('families/_form.html.twig') }}
+
+                <a href="{{ path('families_index') }}">back to list</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}
