@@ -11,19 +11,42 @@
             <a href="#" class="list-group-item list-group-item-action bg-light"></a>
             <a href="{{path('questions_list')}}" class="list-group-item list-group-item-action bg-light">Listes question</a>
             <a href="{{ path('questions_new') }}" class="list-group-item list-group-item-action bg-light">Nouvelle Question</a>
-            <a href="#" class="list-group-item list-group-item-action bg-light">Overview</a>
-            <a href="#" class="list-group-item list-group-item-action bg-light">Events</a>
-            <a href="#" class="list-group-item list-group-item-action bg-light">Profile</a>
-            <a href="#" class="list-group-item list-group-item-action bg-light">Status</a>
+            <a href="{{ path('questions_myquestion') }}" class="list-group-item list-group-item-action bg-light">Mes questions</a>
+            <a href="{{ path('import') }}" class="list-group-item list-group-item-action bg-light">Importer</a>
+            <a href="{{ path('exportexcel') }}" class="list-group-item list-group-item-action bg-light">Exporter</a>
         </div>
         </div>
         <!-- /#sidebar-wrapper -->
 
         <div id="page-content-wrapper">
-            <div class="container-fluid">
+            <div class="container">
+                    {# {% include "export_import/export.html.twig" %} #}
+
                     {% for question in questions %}
-                        {{ question.title }}
+                        {# {% if question.etat != '0' %} #}
+                            <article>
+                                <h3> {{ question.title }} </h3>
+                                <p class="metadata">Ecrit le {{ question.createAt|date('d/m/Y') }} à {{ question.createAt|date('H:i') }},
+                                dans l'article <strong>{{ question.competences.families.title }}</strong>, et du competence <strong>{{ question.competences.title }}</strong></p>
+                                
+                                <p>du type :  
+                                    {% for type in question.types %}
+                                            {{ type.title }} <i>;  </i>
+                                    {% endfor %}
+                                </p>
+                                <p class="content">par {{ question.users.email }}</p>
+                                <a href="{{ path('questions_detail', {'id': question.id}) }}" class="btn btn-primary">Lire la suite</a>
+                            </article>
+
+                            <div class="chartist-chart andvios m-t-40" style="height:25px;"> </div>
+                            <hr class="m-t-0">
+                        {# {% endif %} #}
+                    {% else %}
+                        <p>Accune base enregister dans ce page</p>
                     {% endfor %}
+
+                    {{ knp_pagination_render(questions) }}
+
             </div>
         </div>
     </div>

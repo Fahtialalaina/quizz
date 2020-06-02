@@ -45,7 +45,7 @@ class Questions
     private $etat;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $motif;
 
@@ -71,10 +71,18 @@ class Questions
      */
     private $types;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createAt;
+
     public function __construct()
     {
         $this->answers = new ArrayCollection();
         $this->types = new ArrayCollection();
+
+        // $this->answers_title = new ArrayCollection();
+        // $this->answers_isAnswer = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -231,6 +239,18 @@ class Questions
         if ($this->types->contains($type)) {
             $this->types->removeElement($type);
         }
+
+        return $this;
+    }
+
+    public function getCreateAt(): ?\DateTimeInterface
+    {
+        return $this->createAt;
+    }
+
+    public function setCreateAt(\DateTimeInterface $createAt): self
+    {
+        $this->createAt = $createAt;
 
         return $this;
     }

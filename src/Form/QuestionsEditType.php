@@ -2,24 +2,21 @@
 
 namespace App\Form;
 
-use App\Entity\Answers;
-use App\Entity\Competences;
-use App\Entity\Families;
 use App\Entity\Questions;
+use App\Entity\Competences;
 use App\Entity\Types;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class QuestionType extends AbstractType
+class QuestionsEditType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -46,7 +43,7 @@ class QuestionType extends AbstractType
             ->add('texteComplementaire', TextareaType::class, [
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'Texte complémentaire...'
+                    'placeholder' => 'Texte complementaire...'
                 ]
             ])
             ->add('autreTexte', TextareaType::class, [
@@ -55,12 +52,6 @@ class QuestionType extends AbstractType
                     'placeholder' => 'Autre texte...'
                 ]
             ])
-            //->add('etat', )
-            // ->add('motif', TextType::class, [
-            //     'attr' => [
-            //         'class' => 'form-control'
-            //     ]
-            // ])
             //->add('users')
             ->add('types', EntityType::class, [
                 'class' => Types::class,
@@ -83,21 +74,35 @@ class QuestionType extends AbstractType
                     'class' => 'form-control'
                 ]
             ])
-            // ->add(
-            //     $builder->create('answers', FormType::class, ['by_reference' => true])
-            //         ->add('title', TextType::class)
-            //         ->add('isAnswer', CheckboxType::class, [
-            //             'mapped' => false,
-            //             'compound' => true,
-            //             'allow_extra_fields' => true
-            //         ])
-            // )
+               //->add('etat', )
+               ->add('etat', ChoiceType::class, [
+                'choices' => [
+                    'Nom valider' => '0',
+                    'Valider' => '1',
+                    'Réffuser' => '2',
+                ],
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            
+            //->add('etat', )
+            ->add('motif', TextareaType::class, [
+                'empty_data'    =>  null,
+                'required'      =>  FALSE,
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Motif...'
+                ]
+            ])
 
             ->add('submit', SubmitType::class, [
-                'label'=>'Valider', 
+                'label'=>'Modifier', 
                 'attr'=>['class'=>'btn btn-primary'
                 ]
             ])
+            
+         
         ;
     }
 

@@ -2,24 +2,20 @@
 
 namespace App\Form;
 
-use App\Entity\Answers;
 use App\Entity\Competences;
-use App\Entity\Families;
 use App\Entity\Questions;
 use App\Entity\Types;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class QuestionType extends AbstractType
+class TesteType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -55,13 +51,6 @@ class QuestionType extends AbstractType
                     'placeholder' => 'Autre texte...'
                 ]
             ])
-            //->add('etat', )
-            // ->add('motif', TextType::class, [
-            //     'attr' => [
-            //         'class' => 'form-control'
-            //     ]
-            // ])
-            //->add('users')
             ->add('types', EntityType::class, [
                 'class' => Types::class,
                 'choice_label' => 'title',
@@ -83,15 +72,19 @@ class QuestionType extends AbstractType
                     'class' => 'form-control'
                 ]
             ])
-            // ->add(
-            //     $builder->create('answers', FormType::class, ['by_reference' => true])
-            //         ->add('title', TextType::class)
-            //         ->add('isAnswer', CheckboxType::class, [
-            //             'mapped' => false,
-            //             'compound' => true,
-            //             'allow_extra_fields' => true
-            //         ])
-            // )
+
+            // ->add('title', TextType::class, [
+            //     'attr' => [
+            //         'class' => 'form-control',
+            //         'placeholder' => 'Réponse ...'
+            //     ]
+                
+            // ])
+            ->add('isAnswer', CheckboxType::class, [
+                'attr' => [
+                    // 'class' => 'form-control',
+                ]
+            ])
 
             ->add('submit', SubmitType::class, [
                 'label'=>'Valider', 

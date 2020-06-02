@@ -3,6 +3,11 @@
 {% block title %} Modidier l'utilisteur {% endblock %}
 
 {% block body %}
-    <h3>Modifier l'utilisateur</h3>
-    {{ form(userForm) }}
+    
+    <div class="container">
+        <h3>Modifier l'utilisateur</h3>
+        {{ form(userForm) }}
+        <a href="{{ path('admin_utilisateurs') }}">Retour liste utilisateur</a>
+    </div>
+
 {% endblock %}

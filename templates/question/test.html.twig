@@ -1,8 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ExportImportController!{% endblock %}
+{% block title %}Créer nouvelle question{% endblock %}
 
 {% block body %}
+    <style>
+        span.error {
+            display: block;
+            visibility: hidden;
+            color: red;
+            font-size: 90%;
+        }
+
+        tr.error {
+            background-color: rgba(255,0,0,0.35);
+        }
+    </style>
 
     <div class="d-flex" id="wrapper">
         <!-- Sidebar -->
@@ -13,23 +25,18 @@
             <a href="{{path('questions_list')}}" class="list-group-item list-group-item-action bg-light">Listes question</a>
             <a href="{{ path('questions_new') }}" class="list-group-item list-group-item-action bg-light">Nouvelle Question</a>
             <a href="{{ path('questions_myquestion') }}" class="list-group-item list-group-item-action bg-light">Mes questions</a>
-            <a href="{{ path('import') }}" class="list-group-item list-group-item-action bg-light">Importer</a>
-            <a href="{{ path('exportexcel') }}" class="list-group-item list-group-item-action bg-light">Exporter</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Events</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Profile</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Status</a>
         </div>
         </div>
         <!-- /#sidebar-wrapper -->
 
-        <div class="chartist-chart andvios m-t-40" style="height:45px;"> </div>
-        <hr class="m-t-0">
         <div id="page-content-wrapper">
-            <div class="container">
-                
-                <div class="example-wrapper container">
-                    {{ form(form) }}
-                </div>
+            <div class="container-fluid">
+                <h1>Bonjours mes amies</h1>
 
             </div>
         </div>
 
 {% endblock %}
-

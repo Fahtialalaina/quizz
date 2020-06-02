@@ -4,13 +4,39 @@
 
 {% block body %}
 
-    <div class="example-wrapper container">
-       {% for item in data %}
-            {# {{ item }} #}
-            {# {{ item.columnValues["4"] }} #}
-            <pre>
-                {{ dump(item) }}
-            </pre>
-       {% endfor %}
-    </div>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-light border-right" id="sidebar-wrapper">
+        {# <div class="sidebar-heading">Start Bootstrap </div> #}
+        <div class="list-group list-group-flush">
+             <a href="#" class="list-group-item list-group-item-action bg-light"></a>
+            <a href="{{path('questions_list')}}" class="list-group-item list-group-item-action bg-light">Listes question</a>
+            <a href="{{ path('questions_new') }}" class="list-group-item list-group-item-action bg-light">Nouvelle Question</a>
+            <a href="{{ path('questions_myquestion') }}" class="list-group-item list-group-item-action bg-light">Mes questions</a>
+            <a href="{{ path('import') }}" class="list-group-item list-group-item-action bg-light">Importer</a>
+            <a href="{{ path('exportexcel') }}" class="list-group-item list-group-item-action bg-light">Exporter</a>
+        </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <div class="chartist-chart andvios m-t-40" style="height:45px;"> </div>
+        <hr class="m-t-0">
+        <div id="page-content-wrapper">
+            <div class="container">
+                
+                <div class="example-wrapper container">
+                    {% for item in data %}
+                            {# {{ item }} #}
+                            {# {{ item.columnValues["4"] }} #}
+                            {# <pre>
+                                {{ dump(item) }}
+                            </pre> #}
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+
 {% endblock %}
+
+

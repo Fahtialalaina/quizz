@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Answers{% endblock %}
+
+{% block body %}
+
+    <style>
+        span.error {
+            display: block;
+            visibility: hidden;
+            color: red;
+            font-size: 90%;
+        }
+
+        tr.error {
+            background-color: rgba(255,0,0,0.35);
+        }
+    </style>
+
+    <h1>Create new Answers</h1>
+
+    {# {{ include('answers/_form.html.twig') }} #}
+
+    <div class="details">
+        <h2>
+            Reponse du questions
+        </h2>
+        <table class="table table-responsive">
+            <tr>
+                <td>Réponse</td>
+                <td>Qui/Nom</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr class="mycontainer" id="mainrow">
+                {{ form_start(form) }}
+                    <td class="col-md-6">
+                        {{ form_widget(form.title) }} </br>
+                        <span class="error" style="color:red">Veuiller remplir cette formulaire</span>
+                    </td>
+                    <td>
+                        {{ form_widget(form.isAnswer) }}
+                    </td>
+                    <td>
+                        <input type="button" id="add_answers" value="Ajouter" style="width:80px" class="btn btn-success" />
+                    </td>
+                
+                {{ form_end(form) }}
+            </tr>
+        </table>
+
+        <div id="orderItems">
+            <table class="table table-responsive" id="orderdetailsItems"></table>
+            <span id="orderItemError" style="color:red"></span>
+        </div>
+
+    </div>
+
+    <a href="{{ path('answers_index') }}">back to list</a>
+
+{% endblock %}

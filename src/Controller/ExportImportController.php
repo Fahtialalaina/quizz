@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Competences;
+use App\Entity\Families;
+use App\Entity\Questions;
 use App\Form\ExcelFormatType;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,14 +32,19 @@ class ExportImportController extends AbstractController
         $sheet = $spreadsheet->getActiveSheet();
 
         // Set cell name and merge cells
-        $sheet->setCellValue('A1', 'Browser characteristics')->mergeCells('A1:D1');
+        //$sheet->setCellValue('A1', 'Rapport :')->mergeCells('A1:D1');
+        //ws.Cells["A2"].Style.Font.UnderLine = true;
+        $sheet->setCellValue('C1', 'Export_question')->mergeCells('A1:D1');
 
         // Set column names
         $columnNames = [
-            'Browser',
-            'Developper',
-            'Release date',
-            'Written in',
+            'Article',
+            'Competence',
+            'Titre question',
+            'Motif',
+            'Text complementaire',
+            'Autre texte',
+            'Type',
         ];
         // $columnLetter = 'A';
         // foreach ($columnNames as $columnName) {
@@ -44,6 +52,28 @@ class ExportImportController extends AbstractController
             
         //     $columnLetter++; 
         // }
+        $ColumnValue = array();
+
+        $questions = $this->getDoctrine()->getRepository(Questions::class)->findAll();
+       
+        // $competences = $this->getDoctrine()->getRepository(Competences::class)->findA();
+
+        foreach ($questions as $question) {
+            $competence = $this->getDoctrine()->getRepository(Competences::class)->findOneBy(['id' => $question->getCompetences()]);
+            if ($competence!=null) {
+                $familie = $this->getDoctrine()->getRepository(Families::class)->findOneBy(['id' => $competence->getFamilies()]);
+                if ($familie!=null) {
+                    $ColumnValue = [
+                        $familie->getTitle(),  $competence->getTitle(),
+                        $question->getTitle(), $question->getMotif(), $question->getTexteComplementaire(),
+                        $question->getAutreTexte(), 
+                    ];
+                }
+            }
+           
+        }
+
+        dd($ColumnValue);
 
         $columnLetter = 'A';
         foreach ($columnNames as $columnName) {
@@ -210,7 +240,7 @@ class ExportImportController extends AbstractController
         $spreadsheet = $this->readFile($filename);
         $data = $this->createDataFromSpreadsheet($spreadsheet);
 
-        dd($data);
+        //dd($data);
         return $this->render('export_import/import.html.twig', [
             'data' => $data,
         ]);

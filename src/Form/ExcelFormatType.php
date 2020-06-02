@@ -20,10 +20,10 @@ class ExcelFormatType extends AbstractType
                     'csv' => 'csv',
                 ],
                 'label' => false,
-                'placeholder' => 'Select a format',
+                'placeholder' => 'Selectionner le format excel',
             ])
             ->add('submit', SubmitType::class, [
-                'label'=>'Envoyer',
+                'label'=>'Valider',
                 'attr'=>['class'=>'btn btn-default'
                 ]
             ])

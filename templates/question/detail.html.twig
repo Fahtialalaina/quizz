@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello QuestionController!{% endblock %}
+
+{% block body %}
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-light border-right" id="sidebar-wrapper">
+        {# <div class="sidebar-heading">Start Bootstrap </div> #}
+        <div class="list-group list-group-flush">
+            <a href="#" class="list-group-item list-group-item-action bg-light"></a>
+            <a href="{{path('questions_list')}}" class="list-group-item list-group-item-action bg-light">Listes question</a>
+            <a href="{{ path('questions_new') }}" class="list-group-item list-group-item-action bg-light">Nouvelle Question</a>
+            <a href="{{ path('questions_myquestion') }}" class="list-group-item list-group-item-action bg-light">Mes questions</a>
+            <a href="{{ path('import') }}" class="list-group-item list-group-item-action bg-light">Importer</a>
+            <a href="{{ path('exportexcel') }}" class="list-group-item list-group-item-action bg-light">Exporter</a>
+        </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                    <div class="chartist-chart andvios m-t-40" style="height:25px;"> </div>
+                    {% if question %}
+                        <article>
+                            <h3> {{ question.title }} </h3>
+                            <p class="metadata">Ecrit le {{ question.createAt|date('d/m/Y') }} à {{ question.createAt|date('H:i') }},
+                            dans l'article <strong>{{ question.competences.families.title }}</strong>, et du competence <strong>{{ question.competences.title }}</strong></p>
+                            <p class="content">
+                                <div>
+                                    <p>du type :  
+                                        {% for type in question.types %}
+                                             {{ type.title }} <i>;  </i>
+                                        {% endfor %}
+                                    </p>
+                                </div>
+                                <div>
+                                    <p> Texte complémentaire : {{ question.texteComplementaire }}  </p>
+                                    <p> Autre Texte : {{ question.autreTexte }}  </p>
+                                </div>
+                                <div>
+                                    <img src="{{ asset('uploads/'~ question.attached) }}" alt="Img" width="350"/>
+                                </div>
+                            <p>
+                            <a href="{{ path('questions_list') }}" class="btn btn-primary">Liste des question</a>
+                            {% if app.user.id == question.users.id or is_granted('ROLE_EDITOR') %}
+                                <a href="{{ path('questions_edit', {'id' : question.id}) }}" class="btn btn-primary">Modifier</a>
+                                <a href="#" class="btn btn-primary">Supprimer</a>
+                            {% endif %}
+                           
+                        </article>
+
+                      
+                        <hr class="m-t-0">
+                    {% else %}
+                        <p>Aucune question trouver !</p>
+                    {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

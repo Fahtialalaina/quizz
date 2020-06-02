@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer nouvelle question{% endblock %}
+
+{% block body %}
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-light border-right" id="sidebar-wrapper">
+        {# <div class="sidebar-heading">Start Bootstrap </div> #}
+        <div class="list-group list-group-flush">
+             <a href="#" class="list-group-item list-group-item-action bg-light"></a>
+            <a href="{{path('questions_list')}}" class="list-group-item list-group-item-action bg-light">Listes question</a>
+            <a href="{{ path('questions_new') }}" class="list-group-item list-group-item-action bg-light">Nouvelle Question</a>
+            <a href="{{ path('questions_myquestion') }}" class="list-group-item list-group-item-action bg-light">Mes questions</a>
+            <a href="{{ path('import') }}" class="list-group-item list-group-item-action bg-light">Importer</a>
+            <a href="{{ path('exportexcel') }}" class="list-group-item list-group-item-action bg-light">Exporter</a>
+        </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <h3>Choisir Article</h3>
+                {{ form_start(familiesForm) }}
+                    <div class="form-group">
+                        <label>Families</label>
+                        {{ form_widget(familiesForm.title) }}
+                    </div>
+                {{ form_end(familiesForm) }}
+
+                {{ form_start(questionForm) }}
+                    <h3>Choisir competence</h3>
+                    <div class="form-group">
+                        <label>competence</label>
+                        {{ form_widget(questionForm.competences) }}
+                    </div>
+
+                    <h3>Ajout question</h3>
+                    <div class="form-group">
+                        <label>Titre</label>
+                        {{ form_widget(questionForm.title) }}
+                    </div>
+                    <div class="form-group">
+                        <label>Texte Complémentaire</label>
+                        {{ form_widget(questionForm.texteComplementaire) }}
+                    </div>
+                    <div class="form-group">
+                        <label>Atre text</label>
+                        {{ form_widget(questionForm.autreTexte) }}
+                    </div>
+                    {# <div class="form-group" >
+                        <label>Titre</label>
+                        {{ form_widget(questionForm.motif) }}
+                    </div> #}
+                    <div class="form-group">
+                        <label>Titre</label>
+                        {{ form_widget(questionForm.types) }}
+                    </div>
+                    <div class="form-group">
+                        <label>Titre</label>
+                        {{ form_widget(questionForm.images) }}
+                    </div>
+
+                    {% if is_granted('ROLE_EDITOR') %}
+                        <h3>Pour l'Administrateur</h3>
+                        <div class="form-group" >
+                            <label>Etat</label>
+                            {{ form_widget(questionForm.etat) }}
+                        </div>
+                        <div class="form-group">
+                            <label>Modif</label>
+                            {{ form_widget(questionForm.motif) }}
+                        </div>
+                    {% endif %}
+
+                {{ form_end(questionForm) }}
+            </div>
+        </div>
+
+{% endblock %}

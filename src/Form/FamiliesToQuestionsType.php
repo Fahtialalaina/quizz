@@ -13,7 +13,7 @@ class FamiliesToQuestionsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('families', EntityType::class, array(
+            ->add('title', EntityType::class, array(
                 'class'         =>  Families::class,
                 'choice_label'  =>  'title',
                 'multiple'      =>  FALSE,
