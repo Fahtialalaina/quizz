@@ -5,7 +5,9 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="stylesheet" href="{{ asset('build/bootstrap-4.4.1/dist/css/bootstrap.min.css') }}">
         <!-- Custom styles for this template -->
+        <script src={{ asset('build/datatables/dataTables.bootstrap4.css') }}></script>
         <link href="{{ asset('build/css/simple-sidebar.css') }}" rel="stylesheet">
+        <script src={{ asset('build/css/select2.min.css') }}></script>
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
@@ -67,6 +69,10 @@
             {% block body %}{% endblock %} 
         
             <script src={{ asset('build/jquery/jquery.min.js') }}></script>
+            <script src={{ asset('build/datatables/datatables.min.js') }}></script>
+            <script src={{ asset('build/js/select2.full.min.js') }}></script>
+            <script src={{ asset('build/js/bootstrap-select.min.js') }}></script>
+            <script src={{ asset('build/js/jquery.multi-select.js') }}></script>
             <script src={{ asset('build/my_jquery.js') }}></script>
         {% block javascripts %}{% endblock %}
     </body>

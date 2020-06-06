@@ -70,7 +70,7 @@ class QuestionController extends AbstractController
             // $answ = $form->get('answers_title')->getExtraFields();
            //$answ = $form['answers_title']->getData();
            $answ = $form->get('answer')->getData()->getExtraFields();
-           dd($answ);
+          // dd($answ);
             //On recupere les images transmises;
             $images = $form->get('images')->getData();
             //dd($answ);
@@ -92,11 +92,6 @@ class QuestionController extends AbstractController
                     $questions->setAttached($fichier);
                 }
             }
-
-            # dd($request);
-            # Get answers
-            //$anwr = $form_answer->get('title')->getData();
-            #$answer->getQuestions($questions);
 
             $questions->setEtat('0');
             $questions->setCreateAt(new \DateTime());

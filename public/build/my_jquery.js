@@ -4,23 +4,10 @@ function log($mes){
     console.log($mes)
 }
 
-// var $post_families = $('#families_to_questions_families');
-// var $token = $('#families_to_questions_token');
-
-// $post_families.change(function() {
-//     console.log("Bonjours " + $token.val() );
-
-//     var $form = $(this).closest('form');
-//     var data = {};
-//     data[$token.attr('name')] = $token.val();
-//     data[$post_families.attr('name')] = $post_families.val();
-
-//     $.post($form.attr('action'), data).then(function(response) {
-//         $('#question_competences').replaceWith(
-//             $(response).find("#question_competences")
-//         )
-//     })
-// })
+// $('#families_to_questions_title').select2({
+//     allowClear: true,
+// });
+$('#myTable').DataTable();
 
 
 var $post_families = $('#families_to_questions_title');
@@ -54,6 +41,8 @@ $post_families.change(function () {
     });
 
 });
+
+
 
 
 // $('#add_answers').on('click', function(){

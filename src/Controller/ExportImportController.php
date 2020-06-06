@@ -5,7 +5,11 @@ namespace App\Controller;
 use App\Entity\Competences;
 use App\Entity\Families;
 use App\Entity\Questions;
+use App\Entity\Types;
+use App\Entity\Users;
 use App\Form\ExcelFormatType;
+use App\Form\ImportFormType;
+use App\Form\QuestionType;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,6 +25,11 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Reader\Csv as ReaderCsv;
 use PhpOffice\PhpSpreadsheet\Reader\Ods as ReaderOds;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx as ReaderXlsx;
+use PhpOffice\PhpSpreadsheet\Style\Color;
+use Symfony\Component\CssSelector\Parser\Reader;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class ExportImportController extends AbstractController
 {
@@ -30,11 +39,10 @@ class ExportImportController extends AbstractController
         $spreadsheet = new Spreadsheet();
         // Get active sheet - it is also possible to retrieve a specific sheet
         $sheet = $spreadsheet->getActiveSheet();
-
         // Set cell name and merge cells
-        //$sheet->setCellValue('A1', 'Rapport :')->mergeCells('A1:D1');
+        # $sheet->setCellValue('A1', 'Rapport :');
         //ws.Cells["A2"].Style.Font.UnderLine = true;
-        $sheet->setCellValue('C1', 'Export_question')->mergeCells('A1:D1');
+        $sheet->setCellValue('A1', 'Titre : Export_questions')->mergeCells('A1:D1');
 
         // Set column names
         $columnNames = [
@@ -44,19 +52,30 @@ class ExportImportController extends AbstractController
             'Motif',
             'Text complementaire',
             'Autre texte',
-            'Type',
+            'Type'
         ];
-        // $columnLetter = 'A';
-        // foreach ($columnNames as $columnName) {
-        //     // Allow to access AA column if needed and more
-            
-        //     $columnLetter++; 
-        // }
+        $columnLetter = 'A';
+        foreach ($columnNames as $columnName) {
+            // Allow to access AA column if needed and more
+            $sheet->setCellValue($columnLetter.'3', $columnName);
+
+            // Center text
+            $sheet->getStyle($columnLetter.'2')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+            // Text in bold
+            $sheet->getStyle($columnLetter.'2')->getFont()->setItalic(true);
+            $sheet->getStyle($columnLetter.'2')->getFont()->setBold(true);
+            $sheet->getStyle($columnLetter.'2')->getFont()->setColor(new Color(Color::COLOR_DARKGREEN));
+            // Autosize column
+            $sheet->getColumnDimension($columnLetter)->setAutoSize(true);
+
+            $columnLetter++; 
+        }
+
         $ColumnValue = array();
 
         $questions = $this->getDoctrine()->getRepository(Questions::class)->findAll();
-       
         // $competences = $this->getDoctrine()->getRepository(Competences::class)->findA();
+        $i = 4; // Beginning row for active sheet
 
         foreach ($questions as $question) {
             $competence = $this->getDoctrine()->getRepository(Competences::class)->findOneBy(['id' => $question->getCompetences()]);
@@ -66,51 +85,27 @@ class ExportImportController extends AbstractController
                     $ColumnValue = [
                         $familie->getTitle(),  $competence->getTitle(),
                         $question->getTitle(), $question->getMotif(), $question->getTexteComplementaire(),
-                        $question->getAutreTexte(), 
+                        $question->getAutreTexte(), $question->getTypes() 
                     ];
+                    
+                    $columnLetter = 'A';
+                    foreach ($ColumnValue as $value) {
+                        $sheet->setCellValue($columnLetter.$i, $value);
+                        $columnLetter++;
+                    }
+            
+                    $i++;
                 }
             }
            
         }
 
-        dd($ColumnValue);
+       # dd($ColumnValue);
 
-        $columnLetter = 'A';
-        foreach ($columnNames as $columnName) {
-            // Center text
-            $sheet->getStyle($columnLetter.'3')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-            $sheet->getStyle($columnLetter.'3')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-            // Text in bold
-            $sheet->getStyle($columnLetter.'3')->getFont()->setBold(true);
-            $sheet->getStyle($columnLetter.'3')->getFont()->setBold(true);
-            // Autosize column
-            $sheet->getColumnDimension($columnLetter)->setAutoSize(true);
-
-            $sheet->setCellValue($columnLetter.'3', $columnName);
-            $columnLetter++;
-        }
-
-        // Add data for each column
-        $columnValues = [
-            ['Google Chrome', 'Google Inc.', 'September 2, 2008', 'C++'],
-            ['Firefox', 'Mozilla Foundation', 'September 23, 2002', 'C++, JavaScript, C, HTML, Rust'],
-            ['Microsoft Edge', 'Microsoft', 'July 29, 2015', 'C++'],
-            ['Safari', 'Apple', 'January 7, 2003', 'C++, Objective-C'],
-            ['Opera', 'Opera Software', '1994', 'C++'],
-            ['Maxthon', 'Maxthon International Ltd', 'July 23, 2007', 'C++'],
-            ['Flock', 'Flock Inc.', '2005', 'C++, XML, XBL, JavaScript'],
-        ];
-
-        $i = 4; // Beginning row for active sheet
-        foreach ($columnValues as $columnValue) {
-            $columnLetter = 'A';
-            foreach ($columnValue as $value) {
-                $sheet->setCellValue($columnLetter.$i, $value);
-                $columnLetter++;
-            }
-
-            $i++;
-        }
+        // $columnLetter = 'A';
+        // foreach ($columnNames as $columnName) {
+            
+        // }
 
         return $spreadsheet;
     }
@@ -196,7 +191,7 @@ class ExportImportController extends AbstractController
         return $reader->load($filename);
     }
 
-    protected function createDataFromSpreadsheet($spreadsheet)
+    protected function createDataFromSpreadsheet($spreadsheet, UserInterface $users)
     {
         $data = [];
         foreach ($spreadsheet->getWorksheetIterator() as $worksheet) {
@@ -207,42 +202,118 @@ class ExportImportController extends AbstractController
             ];
             foreach ($worksheet->getRowIterator() as $row) {
                 $rowIndex = $row->getRowIndex();
-                if ($rowIndex > 2) {
+                if ($rowIndex > 1) {
                     $data[$worksheetTitle]['columnValues'][$rowIndex] = [];
                 }
                 $cellIterator = $row->getCellIterator();
                 $cellIterator->setIterateOnlyExistingCells(false); // Loop over all cells, even if it is not set
                 foreach ($cellIterator as $cell) {
-                    if ($rowIndex === 2) {
+                    if ($rowIndex === 1) {
                         $data[$worksheetTitle]['columnNames'][] = $cell->getCalculatedValue();
                     }
-                    if ($rowIndex > 2) {
+                    if ($rowIndex > 1) {
                         $data[$worksheetTitle]['columnValues'][$rowIndex][] = $cell->getCalculatedValue();
+                         
                     }
+                    
                 }
             }
         }
+        $values = $data[$worksheetTitle]['columnValues'];
+        $questions = new Questions();
+        
+        $index_row=3;
+        foreach ( $values as $ligne ) {
+           //dd( $ligne[4] );
 
+                //dd( $values[$index_row][$index_cell] );
+            $competence = $this->getDoctrine()->getRepository(Competences::class)->findOneBy(
+                ['title'=> $ligne[1]]
+            );
+            $type = $this->getDoctrine()->getRepository(Types::class)->findOneBy(
+                ['title'=> $ligne[6]]
+            );
+
+            if ($competence!=null && $type!=null) {
+
+                $questions->setTitle($ligne[2]);
+                $questions->setTexteComplementaire($ligne[4]);
+                $questions->setAutreTexte($ligne[6]);
+
+                $questions->setUsers($users);
+                $questions->setEtat('0');
+                $questions->setCompetences($competence);
+                $questions->setCreateAt(new \DateTime());
+                $questions->addType($type);
+                //$questions->setAttached('');
+
+                $enityManager = $this->getDoctrine()->getManager();
+                $enityManager->persist($questions);
+                $enityManager->flush();
+            }
+            $index_row++;
+        }
+        
         return $data;
     }
 
     /**
-     * @Route("/import", name="import")
+     * @Route("/importExel", name="import")
      */
-    public function importAction(Request $request)
+    public function importAction(Request $request, SluggerInterface $slugger, UserInterface $users=null)
     {
-        // $filename = $this->get('kernel')->getRootDir().'/../export/Browser_characteristics.xlsx';
-        $filename = $this->getParameter('kernel.project_dir')  . '/public/export/Browser_characteristics.csv';
-        if (!file_exists($filename)) {
-            throw new \Exception('File does not exist');
+        $form = $this->createForm(ImportFormType::class);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+
+           $brochureFile = $form->get('import')->getData();
+
+           // this condition is needed because the 'brochure' field is not required
+           // so the PDF file must be processed only when a file is uploaded
+           if ($brochureFile) {
+               $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
+               // this is needed to safely include the file name as part of the URL
+               $safeFilename = $slugger->slug($originalFilename);
+               //$newFilename = $safeFilename.'-'.uniqid().'.'.$brochureFile->guessExtension();
+               $newFilename = $safeFilename.'-'.uniqid().'.'. 'csv';
+                //dd($newFilename);
+               // Move the file to the directory where brochures are stored
+               try {
+                   $brochureFile->move(
+                       //$this->getParameter('brochures_directory'),
+                       $this->getParameter('brochures_directory'),
+                       $newFilename
+                   );
+               } catch (FileException $e) {
+                   // ... handle exception if something happens during file upload
+               }
+           }
+           
+            
+           // $filename = $this->getParameter('kernel.project_dir') . $filename_Line;
+            // $filename = $this->getParameter('kernel.project_dir')  . '/public/export/Browser_characteristics.csv';
+            $filename = $this->getParameter('kernel.project_dir')  . '/public/export/' . $newFilename;
+            
+            if (!file_exists($filename)) {
+                throw new \Exception('File does not exist');
+            }
+
+            $spreadsheet = $this->readFile($filename);
+            $data = $this->createDataFromSpreadsheet($spreadsheet, $users);
+
+            //dd($filename);
+
+            return $this->render('export_import/readimport.html.twig', [
+                'data' => $data,
+            ]);
         }
 
-        $spreadsheet = $this->readFile($filename);
-        $data = $this->createDataFromSpreadsheet($spreadsheet);
+        
 
-        //dd($data);
+        // //dd($data);
         return $this->render('export_import/import.html.twig', [
-            'data' => $data,
+            'form' => $form->createView(),
         ]);
     }
 }

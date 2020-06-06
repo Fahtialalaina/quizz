@@ -3,27 +3,29 @@
 namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class ExcelFormatType extends AbstractType
+class ImportFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('format', ChoiceType::class, [
-                'choices' => [
-                    'xlsx' => 'xlsx',
-                    'ods' => 'ods',
-                    'csv' => 'csv',
-                ],
+            ->add('import', FileType::class, [
                 'label' => false,
-                'placeholder' => 'Selectionner le format excel',
+                'multiple' => false,
+                'mapped' => false,
+                'required' => false,
+                'empty_data'    =>  null,
+                'required'      =>  FALSE,
+                'attr' => [
+                    'class' => 'form-control'
+                ]
             ])
             ->add('submit', SubmitType::class, [
-                'label'=>'Exporter',
+                'label'=>'Importer',
                 'attr'=>['class'=>'btn btn-default'
                 ]
             ])

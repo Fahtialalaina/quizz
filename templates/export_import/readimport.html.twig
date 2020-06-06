@@ -23,7 +23,7 @@
         <hr class="m-t-0">
         <div id="page-content-wrapper">
             <div id="container">
-                {# {% for worksheetTitle, worksheetData in data %}
+                {% for worksheetTitle, worksheetData in data %}
                     <h2>{{ worksheetTitle }}</h2>
                     <table>
                         <thead>
@@ -44,9 +44,7 @@
                 {% endfor %}
             </div>
             <br>
-            <a href="{{ path('questions_list') }}">Homepage</a> #}
-
-            {{ form(form) }}
+            <a href="{{ path('questions_list') }}">Homepage</a>
         </div>
 
 {% endblock %}
